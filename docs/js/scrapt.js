@@ -55,7 +55,7 @@ function scrape(url) {
                 arr.forEach(function (elem) {
                     get_info(elem, function (restaurant) {
                         json.restaurants.push(restaurant);
-                        fs.writeFile('restaurants.json', JSON.stringify(json), 'utf8', function(err) {
+                        fs.writeFile('../JoakimMain/Documents/GitHub/top-chef/docs/js/restaurantss.json', JSON.stringify(json), 'utf8', function(err) {
                             if (!err) {
                                 console.log('One restaurant has been added.');
                             }
