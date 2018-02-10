@@ -11,6 +11,7 @@ function get_info(url, callback) {
             var zipcode = $('.postal-code').first().text();;
             var city = $('.locality').first().text();
             var chef = $('.field--name-field-chef').children('.field__items').text();
+			var star = $('h1').first().text();
             var restaurant = {
                 "name": name,
                 "address": address,
@@ -57,7 +58,7 @@ function scrape(url) {
                         json.restaurants.push(restaurant);
                         fs.writeFile('../JoakimMain/Documents/GitHub/top-chef/docs/js/restaurantss.json', JSON.stringify(json), 'utf8', function(err) {
                             if (!err) {
-                                console.log('One restaurant has been added.');
+                                console.log('Restaurant ajouté.');
                             }
                             else {
                                 return console.log(err);
@@ -70,4 +71,4 @@ function scrape(url) {
     });
 }
 
-scrape('https://restaurant.michelin.fr/restaurants/france/restaurants-1-etoile-michelin');
+scrape('https://restaurant.michelin.fr/restaurants/france/restaurants-1-etoile-michelin/restaurants-2-etoiles-michelin/restaurants-3-etoiles-michelin');
