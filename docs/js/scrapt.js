@@ -11,14 +11,21 @@ function get_info(url, callback) {
             var zipcode = $('.postal-code').first().text();;
             var city = $('.locality').first().text();
             var chef = $('.field--name-field-chef').children('.field__items').text();
-			var star = $('h1').first().text();
+			var star = $('.michelin-poi-distinctions-list').text();
+			
+			if (star.startsWith("1")) {star="1";}
+            else if (star.startsWith("2")) {star="2";}
+             else if(star.startsWith("3")) {star="3";} 
+			
             var restaurant = {
                 "name": name,
                 "address": address,
                 "zipcode": zipcode,
                 "city": city,
-                "chef": chef
+                "chef": chef,
+				"star": star
             };
+	
             callback(restaurant);
         }
     });
