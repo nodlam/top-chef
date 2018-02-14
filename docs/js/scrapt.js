@@ -18,7 +18,7 @@ function get_info(url, callback) {
              else if(star.startsWith("3")) {star="3";} 
 			
             var restaurant = {
-                "name": name,
+                "name": name, 
                 "address": address,
                 "zipcode": zipcode,
                 "city": city,
@@ -37,7 +37,7 @@ function get_urls_on_page(url, callback) {
         if (!err) {
             const $ = cheerio.load(html);
             $('a[class=poi-card-link]').each(function (i, elem) {
-                page_urls.push('https://restaurant.michelin.fr' + $(elem).attr('href'));
+                page_urls.push('https://restaurant.michelin.fr ' + $(elem).attr('href'));
             }
             );
             callback(page_urls);
@@ -55,7 +55,7 @@ function get_total_page_number(url, callback) {
     });
 }
 
-function scrape(url) {
+function scrapt(url) {
     var json = { "restaurants": [] };
     get_total_page_number(url, function (nbr) {
         for (var i = 1; i < +nbr + 1; i++) {
@@ -78,4 +78,4 @@ function scrape(url) {
     });
 }
 
-scrape('https://restaurant.michelin.fr/restaurants/france/restaurants-1-etoile-michelin/restaurants-2-etoiles-michelin/restaurants-3-etoiles-michelin');
+scrapt('https://restaurant.michelin.fr/restaurants/france/restaurants-1-etoile-michelin/restaurants-2-etoiles-michelin/restaurants-3-etoiles-michelin');
