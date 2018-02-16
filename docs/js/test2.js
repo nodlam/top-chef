@@ -18,7 +18,8 @@ var cheerio = require('cheerio');
 var fs  = require('fs');
 
 
-searchRestaurant('Le Train Bleu');
+searchRestaurant('Aux Indes');
+
 function searchRestaurant(restaurantName) {
     url = 'https://www.lafourchette.com/search-refine/' + restaurantName;
     request(url, function (error, response, html) {
@@ -30,9 +31,26 @@ function searchRestaurant(restaurantName) {
             var $ = cheerio.load(html);
             var resultItem = $('.resultItem-name');
             resultItem = resultItem.first();
-            console.log(resultItem.text());
+            /* console.log(resultItem.text()); */
             var url = resultItem.children().first();
-            console.log(url.attr('href')); ;
+			var temp = url.attr('href');
+             console.log(url.attr('href')); 
+			 var numbr = temp.split('/').pop();
+			 console.log(numbr);
+			 
+			 var url = 'https://www.lafourchette.com/reservation/module/date-list/' + numbr ;
+
+request(url, (error, response, body)=> {
+  if (!error && response.statusCode === 200) 
+  {
+    var fourchResponse = JSON.parse(body);
+     console.log("Got a response: ", fourchResponse.data.bestSaleTypeAvailable.title); 
+  } else 
+  {
+    console.log("Got an error: ", error, ", status code: ", response.statusCode);
+  }
+  
+})
         }
     })
 }
