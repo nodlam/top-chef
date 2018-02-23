@@ -17,40 +17,47 @@ var request = require('request');
 var cheerio = require('cheerio');
 var fs  = require('fs');
 
-
-searchRestaurant('Aux Indes');
-
-function searchRestaurant(restaurantName) {
-    url = 'https://www.lafourchette.com/search-refine/' + restaurantName;
-    request(url, function (error, response, html) {
-        if(error){
-            console.log(error);
-        } else if ( response.statusCode != 200) {
-            console.log(response.statusCode);
-        } else {
-            var $ = cheerio.load(html);
-            var resultItem = $('.resultItem-name');
-            resultItem = resultItem.first();
-            /* console.log(resultItem.text()); */
-            var url = resultItem.children().first();
-			var temp = url.attr('href');
-             console.log(url.attr('href')); 
-			 var numbr = temp.split('/').pop();
-			 console.log(numbr);
-			 
-			 var url = 'https://www.lafourchette.com/reservation/module/date-list/' + numbr ;
-
-request(url, (error, response, body)=> {
-  if (!error && response.statusCode === 200) 
-  {
-    var fourchResponse = JSON.parse(body);
-     console.log("Got a response: ", fourchResponse.data.bestSaleTypeAvailable.title); 
-  } else 
-  {
-    console.log("Got an error: ", error, ", status code: ", response.statusCode);
-  }
-  
-})
-        }
-    })
+var data = fs.readFileSync("../JoakimMain/Documents/GitHub/top-chef/docs/js/restaurantss.json", "utf8");
+var obj = JSON.parse(data);
+var taille = obj.restaurants.length;
+var rat = 0;
+/*
+for (var i = 0; i < 20; i++) 
+	{ 
+    searchRestaurant(obj.restaurants[i].name); 
 }
+*/
+for (var i = 1; i < taille; i++) {
+    setTimeout(function(x) { return function() { searchRestaurant(obj.restaurants[x].name) ;  }; }(i), 50*i);
+}
+
+
+
+function searchRestaurant(restaurantName) 
+{
+    url = 'https://m.lafourchette.com/api/restaurant-prediction?name=' + restaurantName;
+    request(url, function (error, response, body){
+           if(!error && response.statusCode == 200)
+		   {
+            var Response = JSON.parse(body);
+			if(Response.length !==0)
+			{
+     console.log(restaurantName, Response[0].id);
+			}	
+		   }
+else
+{
+	console.log(response.statusCode);
+}	
+}
+        )
+}
+
+
+    
+    
+
+
+
+
+
