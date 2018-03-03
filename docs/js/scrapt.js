@@ -65,7 +65,6 @@ function scrapt(url) {
                         json.restaurants.push(restaurant);
                         fs.writeFile('../JoakimMain/Documents/GitHub/top-chef/docs/js/restaurantss.json', JSON.stringify(json), 'utf8', function(err) {
                             if (!err) {
-                                console.log('Restaurant ajouté.');
                             }
                             else {
                                 return console.log(err);
